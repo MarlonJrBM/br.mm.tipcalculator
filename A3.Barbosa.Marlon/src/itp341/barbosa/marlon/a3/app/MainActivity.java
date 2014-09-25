@@ -56,18 +56,18 @@ public class MainActivity extends Activity {
 	private void setTotal() {
 		Log.d(TAG, "setTotal()");
 		totalAmount = billAmount + tipAmount;
+		Log.d(TAG, String.valueOf(totalAmount));
 		if (displayTotal != null)
 			displayTotal.setText(String.format("$%.2f", totalAmount));
 		setPerPerson();
 
 	}
 
-
 	private void setPerPerson() {
 		Log.d(TAG, "setPerPerson()");
 		perPerson = totalAmount / numPpl;
 		if (numPpl == 1) {
-			
+
 			if (textPerPerson != null) {
 				textPerPerson.setVisibility(View.GONE);
 
@@ -76,10 +76,8 @@ public class MainActivity extends Activity {
 				displayPerPerson.setVisibility(View.GONE);
 
 			}
-			
-		}
-		else {
-			
+
+		} else {
 
 			if (textPerPerson != null) {
 				textPerPerson.setVisibility(View.VISIBLE);
@@ -89,7 +87,20 @@ public class MainActivity extends Activity {
 				displayPerPerson.setText(String.format("$%.2f", perPerson));
 				displayPerPerson.setVisibility(View.VISIBLE);
 
-			}	
+			}
+		}
+
+	}
+
+	private void setBillAmount() {
+		Log.d(TAG, "setBillAmount()");
+		if (editAmount != null) {
+			String value = ((EditText) editAmount).getText().toString();
+			if (!value.trim().isEmpty()) {
+				billAmount = Float.parseFloat(value);
+			} else {
+				billAmount = 0;
+			}
 		}
 
 	}
@@ -106,15 +117,7 @@ public class MainActivity extends Activity {
 					KeyEvent event) {
 				// TODO Auto-generated method stub
 				Log.d(TAG, "onEditorAction - billAmount");
-				String value = ((EditText) v).getText()
-						.toString();
-				if (value.trim().isEmpty()) {
-					billAmount = 0;
-				}
-				else {
-					billAmount = Float.parseFloat(value);
-				}
-				
+				setBillAmount();
 				setTotal();
 				return false;
 			}
@@ -141,6 +144,7 @@ public class MainActivity extends Activity {
 							int progress, boolean fromUser) {
 						// TODO Auto-generated method stub
 						Log.d(TAG, "onProgressChanged - seekBarPercent");
+						setBillAmount();
 						tipAmount = (progress * billAmount) / 100;
 						if (displayPercent != null) {
 							displayPercent.setText(String.format("%d%%",
@@ -165,6 +169,8 @@ public class MainActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				Log.d(TAG, "OnItemSelectedListener() - " + position);
+				setBillAmount();
+				setTotal();
 				numPpl = position + 1;
 				setPerPerson();
 
