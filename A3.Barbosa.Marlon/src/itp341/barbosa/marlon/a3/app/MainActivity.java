@@ -55,6 +55,8 @@ public class MainActivity extends Activity {
 
 	private void setTotal() {
 		Log.d(TAG, "setTotal()");
+		setBillAmount();
+		setTipAmount();
 		totalAmount = billAmount + tipAmount;
 		Log.d(TAG, String.valueOf(totalAmount));
 		if (displayTotal != null)
@@ -104,6 +106,20 @@ public class MainActivity extends Activity {
 		}
 
 	}
+	
+	private void setTipAmount() {
+		int percentage = seekBarPercent.getProgress();
+		tipAmount = (percentage * billAmount) / 100;
+		if (displayPercent != null) {
+			displayPercent.setText(String.format("%d%%", percentage
+					));
+		}
+		if (displayTip != null) {
+			displayTip.setText(String
+					.format("$%.2f", tipAmount));
+		}
+		
+	}
 
 	private void setListeners() {
 		Log.d(TAG, "setListeners()");
@@ -117,7 +133,6 @@ public class MainActivity extends Activity {
 					KeyEvent event) {
 				// TODO Auto-generated method stub
 				Log.d(TAG, "onEditorAction - billAmount");
-				setBillAmount();
 				setTotal();
 				return false;
 			}
@@ -144,17 +159,6 @@ public class MainActivity extends Activity {
 							int progress, boolean fromUser) {
 						// TODO Auto-generated method stub
 						Log.d(TAG, "onProgressChanged - seekBarPercent");
-						setBillAmount();
-						tipAmount = (progress * billAmount) / 100;
-						if (displayPercent != null) {
-							displayPercent.setText(String.format("%d%%",
-									progress));
-						}
-						if (displayTip != null) {
-							displayTip.setText(String
-									.format("$%.2f", tipAmount));
-						}
-
 						setTotal();
 
 					}
@@ -169,10 +173,8 @@ public class MainActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				Log.d(TAG, "OnItemSelectedListener() - " + position);
-				setBillAmount();
-				setTotal();
 				numPpl = position + 1;
-				setPerPerson();
+				setTotal();
 
 			}
 
