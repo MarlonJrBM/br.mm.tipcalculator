@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">A3.Barbosa.Marlon</string>
+    <string name="app_name">MM Tip Calculator</string>
     <string name="label_amount">Bill Amount</string>
     <string name="label_percent">Percent</string>
     <string name="display_percent">0%</string>
